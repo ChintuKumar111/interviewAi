@@ -29,19 +29,19 @@ class MainActivity : AppCompatActivity() {
         loadingDialog.setCancelable(false) // user can’t dismiss
         loadingDialog.show()
 
-        // Delay for 3 seconds, then show WebView
-        Handler(Looper.getMainLooper()).postDelayed({
-            loadingDialog.dismiss()
+        // Enable JavaScript
+        webView.settings.javaScriptEnabled = true
 
-            // Enable JavaScript
-            webView.settings.javaScriptEnabled = true
+        // Open links inside WebView & dismiss loader when page is finished
+        webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                loadingDialog.dismiss() // hide when page is loaded
+            }
+        }
 
-            // Open links inside WebView
-            webView.webViewClient = WebViewClient()
-
-            // Load your website
-            webView.loadUrl("https://inter-vue-ai-six.vercel.app/")
-        }, 4000)
+        // Load your website
+        webView.loadUrl("https://inter-vue-ai-six.vercel.app/")
     }
 
     override fun onBackPressed() {
