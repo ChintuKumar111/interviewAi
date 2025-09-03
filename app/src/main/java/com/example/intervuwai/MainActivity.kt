@@ -1,18 +1,20 @@
 package com.example.intervuwai
 
+import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.postDelayed
-import java.util.logging.Handler
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var webView: WebView
     private var doubleBackToExitPressedOnce = false
-    private lateinit var webView: WebView  // WebView reference
+    private lateinit var loadingDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,17 +23,27 @@ class MainActivity : AppCompatActivity() {
 
         webView = findViewById(R.id.myWebView)
 
-        // Enable JavaScript (optional but required for most sites)
-        webView.settings.javaScriptEnabled = true
+        // Create a custom ProgressDialog
+        loadingDialog = Dialog(this)
+        loadingDialog.setContentView(R.layout.dialog_loading)
+        loadingDialog.setCancelable(false) // user can’t dismiss
+        loadingDialog.show()
 
-        // Open links inside WebView instead of browser
-        webView.webViewClient = WebViewClient()
+        // Delay for 3 seconds, then show WebView
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingDialog.dismiss()
 
-        // Load your website
-        webView.loadUrl("https://inter-vue-ai-six.vercel.app/")
+            // Enable JavaScript
+            webView.settings.javaScriptEnabled = true
+
+            // Open links inside WebView
+            webView.webViewClient = WebViewClient()
+
+            // Load your website
+            webView.loadUrl("https://inter-vue-ai-six.vercel.app/")
+        }, 4000)
     }
 
-    // Handle back press for WebView navigation
     override fun onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack()
@@ -44,10 +56,9 @@ class MainActivity : AppCompatActivity() {
             doubleBackToExitPressedOnce = true
             Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show()
 
-            android.os.Handler(Looper.getMainLooper()).postDelayed({
+            Handler(Looper.getMainLooper()).postDelayed({
                 doubleBackToExitPressedOnce = false
-            }, 2000) // 2 seconds timeout
+            }, 2000)
         }
     }
 }
-/// ekdjgiot
