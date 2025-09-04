@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         settings.databaseEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
         settings.mediaPlaybackRequiresUserGesture = false
-        settings.setSupportMultipleWindows(true) // ✅ add this
+        settings.setSupportMultipleWindows(true) // ✅
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
@@ -95,3 +95,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+//completing the project
